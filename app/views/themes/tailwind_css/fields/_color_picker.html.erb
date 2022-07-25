@@ -15,6 +15,7 @@ value = form.object.send(method)
 <% content = render 'shared/fields/field', form: form, method: method, options: html_options, other_options: other_options do %>
   <% content_for :field do %>
     <div class="space-x-1" data-controller="<%= stimulus_controller %>" data-<%= stimulus_controller %>-initial-color-value="<%= value %>">
+      <div data-<%= stimulus_controller %>-target="pickerContainer"></div>
       <%= form.hidden_field method, value: value, data: {"#{stimulus_controller}-target": "colorPickerValue"} %>
       <div class="inline space-x-1" data-<%= stimulus_controller %>-target="colorOptions">
         <% options[:color_picker_options].each do |color| %>
@@ -32,7 +33,8 @@ value = form.object.send(method)
           <button type="button" class="py-2 px-1 border border-transparent inline-flex items-center whitespace-nowrap rounded-md text-lg" data-action="<%= stimulus_controller %>#pickRandomColor">
             <i class="leading-5 ti ti-reload dark:text-blue-500"></i>
           </button>
-          <button type="button" class="py-2 px-1 border border-transparent inline-flex items-center whitespace-nowrap rounded-md btn-pickr text-lg" data-action="<%= stimulus_controller %>#togglePickr">
+          <button type="button" class="py-2 px-1 border border-transparent inline-flex items-center whitespace-nowrap rounded-md btn-pickr text-lg"
+          data-<%= stimulus_controller %>-target="togglePickerButton" data-action="<%= stimulus_controller %>#togglePickr">
             <i class="leading-5 ti ti-pencil dark:text-blue-500"></i>
           </button>
           <button type="button" class="py-2 px-1 pr-3.5 border border-transparent inline-flex items-center whitespace-nowrap rounded-md text-lg" data-action="<%= stimulus_controller %>#unpickColor">
