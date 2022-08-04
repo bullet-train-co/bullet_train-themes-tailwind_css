@@ -14,11 +14,11 @@ labels = labels_for(form, method)
 <%= render 'shared/fields/field', form: form, method: method, options: html_options, other_options: other_options do %>
   <% content_for :field do %>
     <div class="pt-1.5 pb-1 sm:col-span-2">
-      <div class="max-w-lg space-y-3 <%= "columns-[15ch_3]" if use_columns %>">
+      <div class="max-w-lg <%= "columns-[15ch_3]" if use_columns %>">
 
         <% options.each do |value, label| %>
 
-          <label class="relative flex items-start">
+          <label class="relative flex items-start mb-3">
             <div class="flex items-center h-5">
 
               <% if multiple %>
