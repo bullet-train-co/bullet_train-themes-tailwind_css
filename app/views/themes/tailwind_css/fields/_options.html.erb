@@ -1,7 +1,7 @@
 <% yield %>
 
 <%
-stimulus_controller = 'fields--date'
+stimulus_controller = 'fields--options'
 
 form ||= current_fields_form
 html_options ||= {}
@@ -23,7 +23,7 @@ labels = labels_for(form, method)
             <div class="flex items-center h-5">
 
               <% if multiple %>
-                <%= form.check_box method, {multiple: multiple, checked: form.object.send(method).map(&:to_s).include?(value.to_s), class: "focus:ring-blue h-4 w-4 text-blue border-gray-300 rounded"}, value, "" %>
+                <%= form.check_box method, {multiple: multiple, checked: form.object.send(method).map(&:to_s).include?(value.to_s), data: { "#{stimulus_controller}-target": 'checkbox', 'action': "#{stimulus_controller}#updateSelectedIds" }, class: "focus:ring-blue h-4 w-4 text-blue border-gray-300 rounded"}, value, "" %>
               <% else %>
                 <%= form.radio_button method, value, {class: "focus:ring-blue h-4 w-4 text-blue border-gray-300"} %>
               <% end %>
