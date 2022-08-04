@@ -14,7 +14,7 @@ labels = labels_for(form, method)
 <%= render 'shared/fields/field', form: form, method: method, options: html_options, other_options: other_options do %>
   <% content_for :field do %>
     <div class="pt-1.5 pb-1 sm:col-span-2">
-      <div class="max-w-lg <%= "columns-[15ch_3]" if use_columns %>">
+      <div class="max-w-lg <%= "columns-[var(--column-width,_15ch)_3]" if use_columns %>">
 
         <% options.each do |value, label| %>
 
