@@ -8,9 +8,6 @@ multiple ||= false
 other_options ||= {}
 options ||= options_for(form, method)
 labels = labels_for(form, method)
-
-
-
 %>
 
 <%= render 'shared/fields/field', form: form, method: method, options: html_options, other_options: other_options do %>
