@@ -12,17 +12,20 @@ show_select_all_bottom ||= false
 other_options ||= {}
 options ||= options_for(form, method)
 labels = labels_for(form, method)
+
 option_field_options ||= {}
 option_field_options[:data] ||= {}
+option_field_options[:data][:controller] ||= ""
+option_field_options[:data][:controller] += " fields--field"
+
 if multiple
   option_field_options[:data] = option_field_options[:data].merge({
     "#{stimulus_controller}-target": 'checkbox'
   })
-  option_field_options[:data][:controller] ||= ""
-  option_field_options[:data][:controller] += " fields--field"
   option_field_options[:data][:action] ||= ""
   option_field_options[:data][:action] += " #{stimulus_controller}#updateSelectAllCheckbox"
 end
+
 %>
 
 <% if multiple && (show_select_all_top || show_select_all_bottom) %>
