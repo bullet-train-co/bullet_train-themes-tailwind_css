@@ -12,6 +12,17 @@ show_select_all_bottom ||= false
 other_options ||= {}
 options ||= options_for(form, method)
 labels = labels_for(form, method)
+option_field_options ||= {}
+option_field_options[:data] ||= {}
+if multiple
+  option_field_options[:data] = option_field_options[:data].merge({
+    "#{stimulus_controller}-target": 'checkbox'
+  })
+  option_field_options[:data][:controller] ||= ""
+  option_field_options[:data][:controller] += " fields--field"
+  option_field_options[:data][:action] ||= ""
+  option_field_options[:data][:action] += " #{stimulus_controller}#updateSelectAllCheckbox"
+end
 %>
 
 <% if multiple && (show_select_all_top || show_select_all_bottom) %>
@@ -57,9 +68,13 @@ labels = labels_for(form, method)
             <div class="flex items-center h-5">
 
               <% if multiple %>
-                <%= form.check_box method, {multiple: multiple, checked: form.object.send(method).map(&:to_s).include?(value.to_s), data: { "#{stimulus_controller}-target": 'checkbox', 'action': "#{stimulus_controller}#updateSelectAllCheckbox" }, class: "focus:ring-blue h-4 w-4 text-blue border-gray-300 rounded"}, value, "" %>
+                <%= form.check_box method, {
+                  multiple: multiple, checked: form.object.send(method).map(&:to_s).include?(value.to_s),
+                  data: option_field_options[:data],
+                  class: "focus:ring-blue h-4 w-4 text-blue border-gray-300 rounded"
+                }, value, "" %>
               <% else %>
-                <%= form.radio_button method, value, {class: "focus:ring-blue h-4 w-4 text-blue border-gray-300"} %>
+                <%= form.radio_button method, value, {class: "focus:ring-blue h-4 w-4 text-blue border-gray-300", data: option_field_options[:data]} %>
               <% end %>
 
             </div>
