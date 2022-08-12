@@ -30,26 +30,32 @@ end
 
 <% if multiple && (show_select_all_top || show_select_all_bottom) %>
   <% select_all = capture do %>
-    <%= tag.div class: [
-        "hidden",
-        "inline-block dark:border-darkPrimary-600",
-        "border-b pb-4 mb-4": show_select_all_top && !show_select_all_bottom,
-        "border-t pt-4 mt-4": !show_select_all_top && show_select_all_bottom
-    ], data: {
-      "#{stimulus_controller}-target": "selectAllWrapper"
-    } do %>
-      <label class="relative flex items-start">
-        <div class="flex items-center h-5">
-          <%= check_box_tag "#{html_options[:id]}-select_all", 'select-all', false, data: { 
-            "#{stimulus_controller}-target": 'selectAllCheckbox',
-            'action': "#{stimulus_controller}#selectAllOrNone"
-          }, class: "focus:ring-blue h-4 w-4 text-blue border-gray-300 rounded" %>
-        </div>
-        <div class="ml-2.5 text-sm pr-4">
-          All
-        </div>
-      </label>
-    <% end %>
+    <div class="flex">
+      <%= tag.div class: [
+          "hidden",
+          "inline-block dark:border-darkPrimary-600",
+          "border-b pb-4 mb-4": show_select_all_top && !show_select_all_bottom,
+          "border-t pt-4 mt-4": !show_select_all_top && show_select_all_bottom
+      ], data: {
+        "#{stimulus_controller}-target": "selectAllWrapper"
+      } do %>
+        <label class="relative flex items-start">
+          <div class="flex items-center h-5">
+            <%= check_box_tag "#{html_options[:id]}-select_all", 'select-all', false, data: { 
+              "#{stimulus_controller}-target": 'selectAllCheckbox',
+              'action': "#{stimulus_controller}#selectAllOrNone"
+            }, class: "focus:ring-blue h-4 w-4 text-blue border-gray-300 rounded" %>
+          </div>
+          <div class="ml-2.5 text-sm pr-4">
+            All
+          </div>
+        </label>
+      <% end %>
+      <% if content_for? :actions_on_multiple %>
+        <%= yield :actions_on_multiple %>
+        <% flush_content_for :actions_on_multiple %>
+      <% end %>
+    </div>
   <% end %>
 <% end %>
 
