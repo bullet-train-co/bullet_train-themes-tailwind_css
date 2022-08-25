@@ -1,8 +1,6 @@
 <% yield %>
 
 <%
-stimulus_controller = 'fields--options'
-
 form ||= current_fields_form
 html_options ||= {}
 html_options[:id] ||= id_for(form, method)
@@ -20,10 +18,10 @@ option_field_options[:data][:controller] += " fields--field"
 
 if multiple
   option_field_options[:data] = option_field_options[:data].merge({
-    "#{stimulus_controller}-target": 'checkbox'
+    "select-all-target": 'checkbox'
   })
   option_field_options[:data][:action] ||= ""
-  option_field_options[:data][:action] += " #{stimulus_controller}#updateSelectAllCheckbox"
+  option_field_options[:data][:action] += " select-all#updateToggle"
 end
 
 %>
@@ -37,13 +35,13 @@ end
           "border-b pb-4 mb-4": show_select_all_top && !show_select_all_bottom,
           "border-t pt-4 mt-4": !show_select_all_top && show_select_all_bottom
       ], data: {
-        "#{stimulus_controller}-target": "selectAllWrapper"
+        "select-all-target": "wrapper"
       } do %>
         <label class="relative flex items-start">
           <div class="flex items-center h-5">
             <%= check_box_tag "#{html_options[:id]}-select_all", 'select-all', false, data: { 
-              "#{stimulus_controller}-target": 'selectAllCheckbox',
-              'action': "#{stimulus_controller}#selectAllOrNone"
+              "select-all-target": 'toggleCheckbox',
+              'action': "select-all#selectAllOrNone"
             }, class: "focus:ring-blue h-4 w-4 text-blue border-gray-300 rounded" %>
           </div>
           <div class="ml-2.5 text-sm pr-4">
@@ -63,8 +61,8 @@ end
 <%= render 'shared/fields/field', form: form, method: method, options: html_options, other_options: other_options do %>
   <% content_for :field do %>
     <%= tag.div class: "pt-1.5 pb-1 sm:col-span-2", data: {
-      controller: stimulus_controller,
-      "#{stimulus_controller}-select-all-unavailable-class": "hidden"
+      controller: "select-all",
+      "select-all-unavailable-class": "hidden"
     } do %>
     
       <% if multiple && show_select_all_top && !show_select_all_bottom %>
