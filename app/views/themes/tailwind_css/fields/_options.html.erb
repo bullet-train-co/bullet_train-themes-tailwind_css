@@ -3,10 +3,11 @@
 <%
 form ||= current_fields_form
 html_options ||= {}
-html_options[:id] ||= id_for(form, method)
+html_options[:id] ||= form.field_id(method)
 multiple ||= false
 show_select_all_top ||= false
 show_select_all_bottom ||= false
+use_columns ||= false
 other_options ||= {}
 options ||= options_for(form, method)
 labels = labels_for(form, method)
@@ -69,15 +70,17 @@ end
         <%= select_all %>
       <% end %>
       
-      <div class="max-w-lg space-y-3">
+      <%= tag.div class: ["max-w-lg": !use_columns, "max-w-3xl": use_columns, "columns-[var(--column-width,_15ch)_3]": use_columns] do %>
+
         <% options.each do |value, label| %>
 
-          <label class="relative flex items-start">
+          <label class="relative flex items-start mb-3">
             <div class="flex items-center h-5">
 
               <% if multiple %>
+                <% checked_value = form.object.send(method).nil? ? nil : form.object.send(method).map(&:to_s).include?(value.to_s) %>
                 <%= form.check_box method, {
-                  multiple: multiple, checked: form.object.send(method).map(&:to_s).include?(value.to_s),
+                  multiple: multiple, checked: checked_value,
                   data: option_field_options[:data],
                   class: "focus:ring-blue h-4 w-4 text-blue border-gray-300 rounded"
                 }, value, "" %>
@@ -97,7 +100,7 @@ end
           </label>
 
         <% end %>
-      </div>
+      <% end %>
 
       <% if multiple && !show_select_all_top && show_select_all_bottom %>
         <%= select_all %>
